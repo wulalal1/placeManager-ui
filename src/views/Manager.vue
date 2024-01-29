@@ -4,7 +4,7 @@
     <div class="manager-header">
       <div class="manager-header-left">
         <img src="@/assets/imgs/logo.png" />
-        <div class="title">大学羽毛球场地管理系统</div>
+        <div class="title">BMSystem</div>
       </div>
 
       <div class="manager-header-center">
