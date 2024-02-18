@@ -13,8 +13,9 @@
 
     <div class="table">
       <el-table :data="tableData" strip @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
+        <el-table-column type="selection" align="center"></el-table-column>
+        <el-table-column type="index" label="序号" width="100" align="center" sortable></el-table-column>
+        <el-table-column prop="id" label="主键" v-if="false" ></el-table-column>
         <el-table-column prop="username" label="账号"></el-table-column>
         <el-table-column prop="name" label="姓名"></el-table-column>
         <el-table-column prop="phone" label="电话"></el-table-column>

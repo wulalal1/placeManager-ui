@@ -33,20 +33,36 @@
     <div class="manager-main">
       <!--  侧边栏  -->
       <div class="manager-main-left">
-        <el-menu :default-openeds="['info', 'user']" router style="border: none" :default-active="$route.path">
-          <el-menu-item index="/home">
-            <i class="el-icon-s-home"></i>
-            <span slot="title">系统首页</span>
-          </el-menu-item>
+        <el-menu router style="border: none" :default-active="$route.path">
+
+            <el-menu-item index="/home">
+              <i class="el-icon-s-home"></i>
+              <span slot="title">系统首页</span>
+            </el-menu-item>
+
           <el-submenu index="info">
             <template slot="title">
-              <i class="el-icon-menu"></i><span>信息管理</span>
+              <i class="el-icon-s-finance"></i><span>信息管理</span>
             </template>
             <el-menu-item index="/notice">体育公告信息</el-menu-item>
             <el-menu-item index="/blog">内容信息</el-menu-item>
             <el-menu-item index="/category">内容分类</el-menu-item>
             <el-menu-item index="/comment">评论信息</el-menu-item>
+          </el-submenu>
+
+          <el-submenu index="cdInfo">
+            <template slot="title">
+              <i class="el-icon-house"></i><span>场地管理</span>
+            </template>
             <el-menu-item index="/type">场地分类</el-menu-item>
+            <el-menu-item index="/place">场地信息</el-menu-item>
+          </el-submenu>
+
+          <el-submenu index="yxinfo">
+            <template slot="title">
+              <i class="el-icon-thumb"></i><span>预约管理</span>
+            </template>
+            <el-menu-item index="/reservation">预约信息</el-menu-item>
           </el-submenu>
 
           <el-submenu index="user">
@@ -54,9 +70,11 @@
               <i class="el-icon-menu"></i><span>用户管理</span>
             </template>
             <el-menu-item index="/admin">管理员信息</el-menu-item>
-            <el-menu-item index="/place">场地信息</el-menu-item>
+
             <el-menu-item index="/user">用户信息</el-menu-item>
           </el-submenu>
+
+
         </el-menu>
       </div>
 

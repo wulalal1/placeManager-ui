@@ -212,7 +212,6 @@ export default {
       this.load(pageNum)
     },
     handleAvatarSuccess(response, file, fileList) {
-      debugger;
       // 把头像属性换成上传的图片的链接
       this.form.avatar = response.data
     },

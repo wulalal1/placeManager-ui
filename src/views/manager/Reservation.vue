@@ -7,34 +7,26 @@
     </div>
 
     <div class="operation" style="margin: 10px">
-      <el-button type="success " icon="el-icon-edit" @click="handleAdd">新增</el-button>
+      <el-button type="success" icon="el-icon-edit" @click="handleAdd">新增预约</el-button>
+      <el-button type="primary" icon="el-icon-edit" @click="approveYD">审批</el-button>
       <el-button type="danger" icon="el-icon-delete" @click="delBatch">批量删除</el-button>
     </div>
 
     <div>
-      <el-table  :data="tableData" strip @selection-change="handleSelectionChange" style="height: 600px">
+      <el-table :data="tableData" strip @selection-change="handleSelectionChange" style="height: 600px">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column type="index" label="序号" width="100" align="center" sortable></el-table-column>
         <el-table-column prop="id" label="id" v-if="false"></el-table-column>
-        <el-table-column prop="placeCode" label="场地编号" width="200"></el-table-column>
-        <el-table-column prop="placeName" label="场地名称"></el-table-column>
-        <el-table-column label="场地图片">
-          <template v-slot="scope">
-            <div style="display: flex; align-items: center">
-              <el-image style="width: 40px; height: 40px; border-radius: 50%" v-if="scope.row.placeAvatar"
-                        :src="scope.row.placeAvatar" :preview-src-list="[scope.row.placeAvatar]"></el-image>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column prop="placeLong" label="场地长度"></el-table-column>
-        <el-table-column prop="placeWide" label="场地宽度"></el-table-column>
-        <el-table-column prop="placeNature" label="场地性质" :formatter="natureFormat"></el-table-column>
-        <el-table-column prop="placeCharge" label="场地费用"></el-table-column>
-<!--        <el-table-column prop="startTime" label="开始时间"></el-table-column>
-        <el-table-column prop="endTime" label="结束时间"></el-table-column>-->
-        <el-table-column prop="placeSatus" label="场地状态" :formatter="statusFormat"></el-table-column>
-        <el-table-column prop="placeOwner" label="场地所有者"></el-table-column>
-        <el-table-column prop="remarks" label="备注"></el-table-column>
+        <el-table-column prop="placeCode" label="预约（场地编号）" width="200"></el-table-column>
+        <el-table-column prop="startTime" width="140" label="开始时间" :formatter="formatDate"></el-table-column>
+        <el-table-column prop="endTime" width="140" label="结束时间" :formatter="formatDate"></el-table-column>
+        <el-table-column prop="reservationName" label="预约名称"></el-table-column>
+        <el-table-column prop="reservationPName" label="预约人姓名"></el-table-column>
+        <el-table-column prop="reservationPPhone" label="预约人电话"></el-table-column>
+        <el-table-column prop="reservationStatus" label="预约状态" :formatter="statusFormat"></el-table-column>
+        <el-table-column prop="reservationReason" label="预约原因"></el-table-column>
+        <el-table-column prop="reservationQxReason" label="取消预约原因"></el-table-column>
+        <el-table-column prop="reservationType" label="预约类型" :formatter="natureFormat"></el-table-column>
         <el-table-column label="操作" align="center" width="180">
           <template v-slot="scope">
             <el-button size="mini" type="primary" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
@@ -57,38 +49,34 @@
     </div>
 
 
-    <el-dialog title="场地" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog title="预约信息" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="场地编号" prop="placeCode">
-              <el-input v-model="form.placeCode" placeholder="场地编号"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="场地名称" prop="placeName">
-              <el-input v-model="form.placeName" placeholder="场地名称"></el-input>
-            </el-form-item>
-          </el-col>
+        <el-row>
+          <el-form-item label="场地编号" prop="placeCode">
+            <t-select-table
+                @radioChange="radioChange"
+                v-model="form.placeCode"
+                ref="selectTable"
+                :table="table"
+                :columns="table.columns"
+                :max-height="540"
+                :keywords="{ label: 'placeCode', value: 'placeCode' }"
+                style="width: 450px;"
+            />
+            <el-button style="margin-left: 14px" type="primary" size="mini" @click="clear">清空选中</el-button>
+          </el-form-item>
+
         </el-row>
 
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="场地长(米)" prop="placeLong">
-              <el-input v-model="form.placeLong" placeholder="场地长度"></el-input>
+            <el-form-item label="预约名称" prop="reservationName">
+              <el-input v-model="form.reservationName" placeholder="预约名称"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="场地宽(米)" prop="placeWide">
-              <el-input v-model="form.placeWide" placeholder="场地宽度"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="场地性质" prop="placeNature">
-              <el-select v-model="form.placeNature" clearable placeholder="场地性质">
+            <el-form-item label="预约类型" prop="reservationType">
+              <el-select v-model="form.reservationType" clearable placeholder="预约类型">
                 <el-option
                     v-for="item in placeNatureDict"
                     :key="item.value"
@@ -98,14 +86,40 @@
               </el-select>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="场地费用" prop="placeCharge">
-              <el-input v-model="form.placeCharge" placeholder="场地费用"></el-input>
+            <el-form-item label="预约人姓名" prop="reservationPName">
+              <el-input v-model="form.reservationPName" placeholder="预约人姓名"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="预约人电话" prop="reservationPPhone">
+              <el-input v-model="form.reservationPPhone" placeholder="预约人电话"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
 
-<!--
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="预约状态" prop="reservationStatus">
+              <el-select v-model="form.reservationStatus" clearable disabled placeholder="预约状态">
+                <el-option
+                    v-for="item in YXstatusDict"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="预约原因" prop="reservationReason">
+              <el-input v-model="form.reservationReason" placeholder="预约原因"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="开始时间" prop="startTime">
@@ -126,47 +140,6 @@
             </el-form-item>
           </el-col>
         </el-row>
--->
-
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="场地所有者" prop="placeOwner">
-              <el-input v-model="form.placeOwner" placeholder="场地所有者"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="场地状态" prop="placeSatus">
-              <el-select v-model="form.placeSatus" clearable placeholder="场地状态">
-                <el-option
-                    v-for="item in placeStatusDict"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-row :gutter="20">
-          <el-col :span="24">
-            <el-form-item label="备注" prop="remarks">
-              <el-input v-model="form.remarks" placeholder="备注"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-form-item label="图片" prop="placeAvatar">
-          <el-upload
-              class="avatar-uploader"
-              :action="$baseUrl + '/files/upload'"
-              :headers="{ token: user.token }"
-              list-type="picture"
-              :on-success="handleAvatarSuccess"
-          >
-            <el-button type="primary">上传图片</el-button>
-          </el-upload>
-        </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
@@ -179,12 +152,10 @@
 </template>
 
 <script>
-import SnowflakeId from "snowflake-id";
-const snowflake = new SnowflakeId({
-  mid: 42,
-  offset: (2019 - 1970) * 31536000 * 1000
-});
+
 import getDictData from "../../utils/dict";
+import formatDate from "../../utils/utils";
+
 export default {
   name: "Place",
   data() {
@@ -196,41 +167,87 @@ export default {
       username: null,
       fromVisible: false,
       form: {},
+      table: {
+        data: [],
+        columns: [
+          {label: "场地编号", width: "100px", prop: "placeCode"},
+          {label: "场地名称", width: "149px", prop: "placeName", noShowTip: true},
+          {label: "场地长", width: "149px", prop: "placeLong"},
+          {label: "场地宽", width: "110px", prop: "placeWide"},
+        ],
+      },
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       rules: {
         placeCode: [{required: true, message: '请输入', trigger: 'blur'}],
-        placeName: [{required: true, message: '请输入', trigger: 'blur'}],
-        placeWide: [{required: true, message: '请输入', trigger: 'blur'}],
-        placeLong: [{required: true, message: '请输入', trigger: 'blur'}],
-        placeSatus: [{required: true, message: '请输入', trigger: 'blur'}],
+        reservationName: [{required: true, message: '请输入', trigger: 'blur'}],
+        reservationPName: [{required: true, message: '请输入', trigger: 'blur'}],
+        reservationPPhone: [{required: true, message: '请输入', trigger: 'blur'}],
       },
       ids: [],
       placeNatureDict: getDictData("nature"),
-      placeStatusDict: getDictData("status"),
+      YXstatusDict: getDictData("YXstatus"),
     }
   },
   created() {
-    this.load(1)
+    this.load(1);
+    this.initData();
   },
   methods: {
+    compareTime(startTime, endTime) {
+      let startTimes = new Date(startTime);
+      let endTimes = new Date(endTime);
+      return startTimes > endTimes
+    },
+    formatDate(row, column) {
+      return formatDate(row, column);
+    },
+    async initData() {
+      const {data} = await this.$request.get('/place/selectAll')
+      if (data) {
+        this.table.data = data
+      }
+    },
+    radioChange(row) {
+      this.form.placeCode = row.placeCode
+    },
+    clear() {
+      this.$refs.selectTable.clear();
+    },
     natureFormat(row, column) {
       return this.placeNatureDict.map((item) => {
-        if (row.placeNature === item.value) {
+        if (row.reservationType === item.value) {
           return item.label;
         }
       });
     },
     statusFormat(row, column) {
-      return this.placeStatusDict.map((item) => {
-        if (row.placeSatus === item.value) {
+      return this.YXstatusDict.map((item) => {
+        debugger;
+        if (row.reservationStatus === item.value) {
           return item.label;
         }
       });
     },
     handleAdd() {   // 新增数据
       this.form = {}
-      this.form.placeCode = 'CDBH'+snowflake.generate();
       this.fromVisible = true   // 打开弹窗
+    },
+    approveYD() {   // 审批数据
+      if (!this.ids.length) {
+        this.$message.warning('请选择数据')
+        return
+      }
+      this.$confirm('您确定审批这些数据吗？', '审批通过', {type: "warning"}).then(response => {
+        this.$request.delete('/reservation/approvalYD', {data: this.ids}).then(res => {
+          if (res.code === '200') {   // 表示操作成功
+            this.$message.success('操作成功')
+            this.load(1)
+          } else {
+            this.$message.error(res.msg)  // 弹出错误的信息
+          }
+        })
+      }).catch(() => {
+      })
     },
     handleEdit(row) {   // 编辑数据
       this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
@@ -239,8 +256,17 @@ export default {
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
         if (valid) {
+          debugger;
+          if (this.form.startTime >= this.form.endTime) {
+            this.$message({
+              showClose: true,
+              message: '结束时间不能大于开始时间',
+              type: 'error'
+            });
+            return
+          }
           this.$request({
-            url: '/place/insertAndUpdate',
+            url: '/reservation/insertAndUpdate',
             method: 'POST',
             data: this.form
           }).then(res => {
@@ -257,7 +283,7 @@ export default {
     },
     del(id) {   // 单个删除
       this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
-        this.$request.delete('/place/delete/' + id).then(res => {
+        this.$request.delete('/reservation/delete/' + id).then(res => {
           if (res.code === '200') {   // 表示操作成功
             this.$message.success('操作成功')
             this.load(1)
@@ -277,7 +303,7 @@ export default {
         return
       }
       this.$confirm('您确定批量删除这些数据吗？', '确认删除', {type: "warning"}).then(response => {
-        this.$request.delete('/place/delete/batch', {data: this.ids}).then(res => {
+        this.$request.delete('/reservation/delete/batch', {data: this.ids}).then(res => {
           if (res.code === '200') {   // 表示操作成功
             this.$message.success('操作成功')
             this.load(1)
@@ -290,7 +316,7 @@ export default {
     },
     load(pageNum) {  // 分页查询
       if (pageNum) this.pageNum = pageNum
-      this.$request.get('/place/pageList', {
+      this.$request.get('/reservation/pageList', {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
