@@ -8,7 +8,7 @@
 
     <div class="operation" style="margin: 10px">
       <el-button type="success" icon="el-icon-edit" @click="handleAdd">新增预约</el-button>
-      <el-button type="primary" icon="el-icon-edit" @click="approveYD">审批</el-button>
+      <el-button type="primary" icon="el-icon-edit" @click="approveYD">预约审批</el-button>
       <el-button type="danger" icon="el-icon-delete" @click="delBatch">批量删除</el-button>
     </div>
 
@@ -222,7 +222,6 @@ export default {
     },
     statusFormat(row, column) {
       return this.YXstatusDict.map((item) => {
-        debugger;
         if (row.reservationStatus === item.value) {
           return item.label;
         }
@@ -233,12 +232,64 @@ export default {
       this.fromVisible = true   // 打开弹窗
     },
     approveYD() {   // 审批数据
-      if (!this.ids.length) {
-        this.$message.warning('请选择数据')
-        return
-      }
-      this.$confirm('您确定审批这些数据吗？', '审批通过', {type: "warning"}).then(response => {
-        this.$request.delete('/reservation/approvalYD', {data: this.ids}).then(res => {
+      const h = this.$createElement;
+      let _this = this;
+      _this.statu = '1';
+      this.$msgbox({
+        title: '提示',
+        type: 'warning',
+        message:
+            h('div', null, [
+              h('span', null, '是否同意预约： '),
+              h('span', {
+                    style: {
+                      marginRight: '20px'
+                    }
+                  },
+                  [h('input', {
+                    style: {
+                      cursor: 'pointer',
+                    },
+                    attrs: {
+                      // 添加属性
+                      type: "radio",
+                      name: "Radio",
+                      value: "1",
+                      id: "radio1",
+                      checked: _this.statu === '1',
+                    },
+                    on: {
+                      change: () => {
+                        _this.statu = '1'
+                      }
+                    }
+                  }, []), h('span', {
+                    class: 'el-radio__label',
+                  }, `同意`)]),
+              h('span', null,
+                  [h('input', {
+                    style: {
+                      cursor: 'pointer',
+                    },
+                    attrs: {
+                      type: "radio",
+                      name: "Radio",
+                      value: "0",
+                      id: "radio2",
+                      checked: _this.statu === '2',
+                    },
+                    on: {
+                      change: () => {
+                        _this.statu = '2'
+                      }
+                    }
+                  }, []), h('span', {class: 'el-radio__label'}, `不同意`)]),
+            ]),
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+      }).then(() => {
+        this.$request.post('/reservation/approvalYD', {ids: this.ids, status: this.statu}).then(res => {
           if (res.code === '200') {   // 表示操作成功
             this.$message.success('操作成功')
             this.load(1)
@@ -247,6 +298,7 @@ export default {
           }
         })
       }).catch(() => {
+        console.log("取消操作");
       })
     },
     handleEdit(row) {   // 编辑数据
@@ -256,7 +308,6 @@ export default {
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
         if (valid) {
-          debugger;
           if (this.form.startTime >= this.form.endTime) {
             this.$message({
               showClose: true,

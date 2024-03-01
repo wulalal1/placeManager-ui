@@ -5,6 +5,7 @@
 }
 body {
     font-size: 14px;
+    overflow-y: scroll; /*overflow属性: 检索或设置当对象的内容超过其指定高度及宽度时如何显示内容,scroll 无论内容是否超越范围，都将显示滚动条。*/
 }
 a {
     text-decoration: none;

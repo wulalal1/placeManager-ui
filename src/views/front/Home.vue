@@ -27,8 +27,8 @@
       <div style="margin-top: 30px">
         <el-row :gutter="20">
           <el-col :span="6" v-for="item in placeData">
-            <img :src="item.avatar" style="width: 100%; height: 175px; border-radius: 10px" alt="" @click="navToDetail(item.id)">
-            <div style="font-size: 16px; font-weight: bold; margin-top: 10px; color: #455873FF">{{item.name}}</div>
+            <img :src="item.placeAvatar" style="width: 100%; height: 175px; border-radius: 10px" alt="" @click="navToDetail(item.id)">
+            <div style="font-size: 16px; font-weight: bold; margin-top: 10px; color: #455873FF">{{item.placeName}}</div>
           </el-col>
         </el-row>
       </div>
@@ -43,7 +43,7 @@ export default {
   data() {
     let placeId = this.$route.query.id
     return {
-      placeData: {},
+      placeData: [],
       typeData: [],
       placeId:placeId
     }
@@ -57,7 +57,7 @@ export default {
       location.href = '/front/place?id=' + id
     },
     loadPlaces() {
-      this.$request.get('/place/selectAll?id=' + this.placeId).then(res => {
+      this.$request.get('/place/selectAll').then(res => {
         if (res.code === '200') {
           this.placeData = res.data
         } else {

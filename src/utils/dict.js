@@ -15,34 +15,43 @@ export const dict = [
             label: '商业使用'
         }, {
             value: '4',
-            label: '其他租用'
+            label: '其他'
         }]
     },
     {
         key: "status", value: [{
             value: '0',
-            label: '未使用'
+            label: '维护中'
         }, {
             value: '1',
-            label: '使用中'
+            label: '正常使用'
         }, {
             value: '2',
-            label: '以预约'
-        }, {
-            value: '3',
             label: '废弃'
         }]
     },
     {
         key: "YXstatus", value: [{
             value: '0',
-            label: '未审批'
+            label: '预约中'
         }, {
             value: '1',
-            label: '审批通过'
+            label: '预约成功'
         }, {
             value: '2',
-            label: '审批驳回'
+            label: '预约失败'
+        }]
+    },
+    {
+        key: "iconStatus", value: [{
+            value: '0',
+            label: 'info'
+        }, {
+            value: '1',
+            label: 'success'
+        }, {
+            value: '2',
+            label: 'error'
         }]
     },
 ];
