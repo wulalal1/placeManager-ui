@@ -54,6 +54,30 @@ export const dict = [
             label: 'error'
         }]
     },
+    {
+        key: "equipStatus", value: [{
+            value: '0',
+            label: '羽毛球拍'
+        }, {
+            value: '1',
+            label: '羽毛球'
+        }, {
+            value: '2',
+            label: '羽毛球网'
+        }, {
+            value: '3',
+            label: '羽毛球训练器'
+        }]
+    },
+    {
+        key: "rentStatus", value: [{
+            value: '0',
+            label: '借出'
+        }, {
+            value: '1',
+            label: '未借出'
+        }]
+    },
 ];
 
 export default function getDictData (keys) {

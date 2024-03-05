@@ -26,6 +26,7 @@ const routes = [
       { path: 'category', name: 'Category', meta: { name: '内容分类' }, component: () => import('../views/manager/Category') },
       { path: 'blog', name: 'Blog', meta: { name: '内容信息' }, component: () => import('../views/manager/Blog') },
       { path: 'place', name: 'Place', meta: { name: '场地管理' }, component: () => import('../views/manager/Place') },
+      { path: 'equipment', name: 'Equipment', meta: { name: '器材管理' }, component: () => import('../views/front/Equipment') },
       { path: 'reservation', name: 'Reservation', meta: { name: '预约管理' }, component: () => import('../views/manager/Reservation') },
       { path: 'type', name: 'Type', meta: { name: '分类信息' }, component: () => import('../views/manager/Type') },
       { path: 'comment', name: 'Comment', meta: { name: '评论信息' }, component: () => import('../views/manager/Comment') },
@@ -43,6 +44,7 @@ const routes = [
       { path: 'search', name: 'Search', meta: { name: '博客搜索' }, component: () => import('../views/front/Search') },
       { path: 'newBlog', name: 'NewBlog', meta: { name: '博客编辑' }, component: () => import('../views/front/NewBlog') },
       { path: 'place', name: 'Place', meta: { name: '场地管理' }, component: () => import('../views/front/Place') },
+      { path: 'equipment', name: 'Equipment', meta: { name: '器材管理' }, component: () => import('../views/front/Equipment') },
     ]
   },
   { path: '/login', name: 'Login', meta: { name: '登录' }, component: () => import('../views/Login.vue') },

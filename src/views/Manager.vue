@@ -58,6 +58,13 @@
             <el-menu-item index="/place">场地信息</el-menu-item>
           </el-submenu>
 
+          <el-submenu index="equipInfo">
+            <template slot="title">
+              <i class="el-icon-setting"></i><span>器材管理</span>
+            </template>
+            <el-menu-item index="/equipment">器材信息</el-menu-item>
+          </el-submenu>
+
           <el-submenu index="yxinfo">
             <template slot="title">
               <i class="el-icon-thumb"></i><span>预约管理</span>

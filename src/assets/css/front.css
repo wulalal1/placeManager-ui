@@ -9,7 +9,7 @@ body{
 }
 .front-header {
     display: flex;
-    height: 60px;
+    height: 61px;
     line-height: 60px;
     border-bottom: 1px solid #eee;
     background: #647dd5;

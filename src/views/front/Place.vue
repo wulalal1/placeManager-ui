@@ -1,19 +1,32 @@
 <template>
   <div class="main-content">
+    <div style="width: 60%; margin: 0 auto">
+      <el-row :gutter="20">
+        <!--        <el-col :span="6" v-for="item in placeData">-->
+        <!--          <img :src="item.img" style="width: 100%; height: 200px; border-radius: 10px" alt="" @click="navToDetail(item.id)">-->
+        <div style="font-size: 18px; margin-top: 10px; color: #455873FF">
+          <span style="font-weight: bold;">{{ placeData.placeName }}</span>
+          <span style="font-weight: bold; color: #455873FF; margin-left: 20px"><i
+              class="el-icon-coin"></i> 价格: {{ placeData.placeCharge }} </span>
+          <span style="font-weight: bold;margin-left: 20px">场地情况: {{ placeSatus }}</span>
+        </div>
+      </el-row>
+    </div>
     <div style="width: 60%; margin: 20px auto; display: flex">
       <div style="flex: 1">
         <img :src="placeData.placeAvatar" alt="" style="width: 100%; height: 250px; border-radius: 10px">
       </div>
       <div style="flex: 1; margin-left: 30px">
         <div style="font-size: 18px; font-weight: bold; color: #0F294DFF">{{ placeData.name }}</div>
-        <div style="color: #0F294DFF; margin-top: 10px ;font-size: 18px">场地官网： <a v-bind:href="link">{{ text }}</a>
+        <div style="color: #0F294DFF; margin-top: 10px ;font-size: 14px"><i class="el-icon-s-promotion"></i>场地官网： <a v-bind:href="link">{{ text }}</a>
         </div>
-        <div style="color: #0F294DFF; margin-top: 10px ;font-size: 18px">场地电话：{{ "010644922185" }}</div>
-        <div style="color: #0F294DFF; margin-top: 10px ;font-size: 18px">场地邮箱：{{ "123@qq.com" }}</div>
+        <div style="color: #0F294DFF; margin-top: 10px ;font-size: 14px"><i class="el-icon-phone"></i>场地电话：{{ "010644922185" }}</div>
+        <div style="color: #0F294DFF; margin-top: 10px ;font-size: 14px" class=""><i class="el-icon-time"></i>营业时间：{{ "9:00-22:00" }}</div>
+        <div style="color: #0F294DFF; margin-top: 10px ;font-size: 14px" class=""><i class="el-icon-location-outline"></i>场馆地址：{{ "北京市朝阳区双桥中路北影传奇科创园A6栋0" }}</div>
         <div
-            style="color: #0F294DFF; margin-top: 10px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 5;font-size: 18px">
+            style="color: #0F294DFF; margin-top: 10px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 5;font-size: 14px">
           场地介绍：{{
-            "羽毛球场为一长方形场地，长度为" + placeData.placeLong + "米，场地宽为" + placeData.placeLong + "米。属于" + typeData[0].description + "。"
+            "羽毛球场为一长方形场地，长度为" + placeData.placeLong + "米，场地宽为" + placeData.placeLong + "米。属于" + typeData[0]?.description + "。"
           }}
         </div>
         <div style="margin-top: 20px">
@@ -24,18 +37,7 @@
       </div>
       <div style="flex: 1"></div>
     </div>
-    <div style="width: 60%; margin: 0 auto">
-      <el-row :gutter="20">
-        <!--        <el-col :span="6" v-for="item in placeData">-->
-        <!--          <img :src="item.img" style="width: 100%; height: 200px; border-radius: 10px" alt="" @click="navToDetail(item.id)">-->
-        <div style="font-size: 18px; margin-top: 10px; color: #455873FF">
-          <span style="font-weight: bold;">{{ placeData.placeName }}</span>
-          <span style="font-weight: bold; color: #455873FF; margin-left: 20px"><i
-              class="el-icon-s-home"></i> 价格: {{ placeData.placeCharge }} </span>
-          <span style="font-weight: bold;margin-left: 20px">场地情况: {{ placeSatus }}</span>
-        </div>
-      </el-row>
-    </div>
+
     <el-dialog title="预约信息" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
         <el-row>
