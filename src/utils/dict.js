@@ -55,7 +55,7 @@ export const dict = [
         }]
     },
     {
-        key: "equipStatus", value: [{
+        key: "equipType", value: [{
             value: '0',
             label: '羽毛球拍'
         }, {
