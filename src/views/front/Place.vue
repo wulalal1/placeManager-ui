@@ -23,21 +23,18 @@
         <div style="color: #0F294DFF; margin-top: 10px ;font-size: 14px"><i class="el-icon-phone"></i>场地电话：{{ "010644922185" }}</div>
         <div style="color: #0F294DFF; margin-top: 10px ;font-size: 14px" class=""><i class="el-icon-time"></i>营业时间：{{ "9:00-22:00" }}</div>
         <div style="color: #0F294DFF; margin-top: 10px ;font-size: 14px" class=""><i class="el-icon-location-outline"></i>场馆地址：{{ "北京市朝阳区双桥中路北影传奇科创园A6栋0" }}</div>
-        <div
-            style="color: #0F294DFF; margin-top: 10px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 5;font-size: 14px">
-          场地介绍：{{
-            "羽毛球场为一长方形场地，长度为" + placeData.placeLong + "米，场地宽为" + placeData.placeLong + "米。属于" + typeData[0]?.description + "。"
-          }}
+        <div style="color: #0F294DFF; margin-top: 10px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 5;font-size: 14px">
+          场地介绍：{{"羽毛球场为一长方形场地，长度为" + placeData.placeLong + "米，场地宽为" + placeData.placeLong + "米。属于" + typeData[0]?.description + "。" }}
         </div>
         <div style="margin-top: 20px">
           <el-row>
-            <el-button size="medium" type="warning" icon="el-icon-thumb" @click="preOrder">点击预定</el-button>
+            <el-button type="warning" size="medium" style="width: 117px;height: 36px" icon="el-icon-thumb" @click="preOrder">点击预定</el-button>
+            <el-button type="primary" size="medium" style="width: 117px;height: 36px" icon="el-icon-back" @click="openPage()">返回</el-button>
           </el-row>
         </div>
       </div>
-      <div style="flex: 1"></div>
+<!--      <div style="flex: 1"></div>-->
     </div>
-
     <el-dialog title="预约信息" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
         <el-row>
@@ -250,6 +247,9 @@ export default {
       this.form = {}
       this.fromVisible = true   // 打开弹窗
       this.form.placeCode = this.placeData.placeCode  //固定场地编号
+    },
+    openPage() {
+      this.$router.go(-1); // 返回上一页
     },
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
