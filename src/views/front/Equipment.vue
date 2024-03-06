@@ -223,7 +223,7 @@
           <el-input v-model="form.equipName" placeholder="请输入器材名称"/>
         </el-form-item>
         <el-form-item label="器材类型" prop="equipType">
-          <el-select v-model="form.reservationType" clearable placeholder="器材类型">
+          <el-select v-model="form.equipType" clearable placeholder="器材类型">
             <el-option
                 v-for="item in equipTypeDict"
                 :key="item.value"
