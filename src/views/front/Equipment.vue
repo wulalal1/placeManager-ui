@@ -17,29 +17,21 @@
             @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <!--      <el-form-item label="器材类型" prop="equipType">-->
-      <!--        <el-input-->
-      <!--            v-model="queryParams.equipType"-->
-      <!--            placeholder="请输入器材类型"-->
-      <!--            clearable-->
-      <!--            @keyup.enter.native="handleQuery"-->
-      <!--        />-->
-      <!--      </el-form-item>-->
-<!--      <el-form-item label="器材类型" prop="equipType">-->
-<!--        <el-select-->
-<!--            v-model="queryParams.equipType"-->
-<!--            placeholder="器材类型"-->
-<!--            clearable-->
-<!--            style="width: 240px"-->
-<!--        >-->
-<!--          <el-option-->
-<!--              v-for="dict in equipTypeDict"-->
-<!--              :key="dict.value"-->
-<!--              :label="dict.label"-->
-<!--              :value="dict.value"-->
-<!--          />-->
-<!--        </el-select>-->
-<!--      </el-form-item>-->
+      <el-form-item label="器材类型" prop="equipType">
+        <el-select
+            v-model="queryParams.equipType"
+            placeholder="器材类型"
+            clearable
+            style="width: 240px"
+        >
+          <el-option
+              v-for="dict in equipTypeDict"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item label="生产厂家" prop="producer">
         <el-input
             v-model="queryParams.producer"
