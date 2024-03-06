@@ -73,14 +73,14 @@
       <!--            @keyup.enter.native="handleQuery"-->
       <!--        />-->
       <!--      </el-form-item>-->
-      <!--      <el-form-item label="生产厂家" prop="producer">-->
-      <!--        <el-input-->
-      <!--            v-model="queryParams.producer"-->
-      <!--            placeholder="请输入生产厂家"-->
-      <!--            clearable-->
-      <!--            @keyup.enter.native="handleQuery"-->
-      <!--        />-->
-      <!--      </el-form-item>-->
+            <el-form-item label="生产厂家" prop="producer">
+              <el-input
+                  v-model="queryParams.producer"
+                  placeholder="请输入生产厂家"
+                  clearable
+                  @keyup.enter.native="handleQuery"
+              />
+            </el-form-item>
       <!--      <el-form-item label="购买日期" prop="purchasingDate">-->
       <!--        <el-date-picker clearable-->
       <!--                        v-model="queryParams.purchasingDate"-->
