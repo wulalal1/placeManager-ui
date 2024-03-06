@@ -13,7 +13,7 @@ import Tui from "@wocwin/t-ui"
 import Pagination from "@/components/Pagination";
 // 自定义表格工具组件
 import RightToolbar from "@/components/RightToolbar"
-import  {resetForm} from "@/utils/ruoyi";
+import  {resetForm,addDateRange} from "@/utils/ruoyi";
 // 图片预览组件
 import ImagePreview from "@/components/ImagePreview"
 // 图片上传组件
@@ -27,6 +27,7 @@ Vue.prototype.$baseUrl = process.env.VUE_APP_BASEURL
 Vue.component('Pagination', Pagination)
 Vue.component('RightToolbar', RightToolbar)
 Vue.prototype.resetForm = resetForm
+Vue.prototype.addDateRange = addDateRange
 Vue.component('ImagePreview', ImagePreview)
 Vue.component('ImageUpload', ImageUpload)
 

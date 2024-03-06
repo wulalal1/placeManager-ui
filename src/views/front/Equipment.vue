@@ -17,92 +17,54 @@
             @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <!--      <el-form-item label="单价" prop="price">-->
+      <!--      <el-form-item label="器材类型" prop="equipType">-->
       <!--        <el-input-->
-      <!--            v-model="queryParams.price"-->
-      <!--            placeholder="请输入单价"-->
+      <!--            v-model="queryParams.equipType"-->
+      <!--            placeholder="请输入器材类型"-->
       <!--            clearable-->
       <!--            @keyup.enter.native="handleQuery"-->
       <!--        />-->
       <!--      </el-form-item>-->
-      <!--      <el-form-item label="器材图片" prop="equipPicture">-->
-      <!--        <el-input-->
-      <!--            v-model="queryParams.equipPicture"-->
-      <!--            placeholder="请输入器材图片"-->
-      <!--            clearable-->
-      <!--            @keyup.enter.native="handleQuery"-->
-      <!--        />-->
-      <!--      </el-form-item>-->
-      <!--      <el-form-item label="长度" prop="longth">-->
-      <!--        <el-input-->
-      <!--            v-model="queryParams.longth"-->
-      <!--            placeholder="请输入长度"-->
-      <!--            clearable-->
-      <!--            @keyup.enter.native="handleQuery"-->
-      <!--        />-->
-      <!--      </el-form-item>-->
-      <!--      <el-form-item label="宽度" prop="width">-->
-      <!--        <el-input-->
-      <!--            v-model="queryParams.width"-->
-      <!--            placeholder="请输入宽度"-->
-      <!--            clearable-->
-      <!--            @keyup.enter.native="handleQuery"-->
-      <!--        />-->
-      <!--      </el-form-item>-->
-      <!--      <el-form-item label="高度" prop="high">-->
-      <!--        <el-input-->
-      <!--            v-model="queryParams.high"-->
-      <!--            placeholder="请输入高度"-->
-      <!--            clearable-->
-      <!--            @keyup.enter.native="handleQuery"-->
-      <!--        />-->
-      <!--      </el-form-item>-->
-      <!--      <el-form-item label="重量" prop="weight">-->
-      <!--        <el-input-->
-      <!--            v-model="queryParams.weight"-->
-      <!--            placeholder="请输入重量"-->
-      <!--            clearable-->
-      <!--            @keyup.enter.native="handleQuery"-->
-      <!--        />-->
-      <!--      </el-form-item>-->
-      <!--      <el-form-item label="数量" prop="number">-->
-      <!--        <el-input-->
-      <!--            v-model="queryParams.number"-->
-      <!--            placeholder="请输入数量"-->
-      <!--            clearable-->
-      <!--            @keyup.enter.native="handleQuery"-->
-      <!--        />-->
-      <!--      </el-form-item>-->
-            <el-form-item label="生产厂家" prop="producer">
-              <el-input
-                  v-model="queryParams.producer"
-                  placeholder="请输入生产厂家"
-                  clearable
-                  @keyup.enter.native="handleQuery"
-              />
-            </el-form-item>
-      <!--      <el-form-item label="购买日期" prop="purchasingDate">-->
-      <!--        <el-date-picker clearable-->
-      <!--                        v-model="queryParams.purchasingDate"-->
-      <!--                        type="date"-->
-      <!--                        value-format="yyyy-MM-dd"-->
-      <!--                        placeholder="请选择购买日期">-->
-      <!--        </el-date-picker>-->
-      <!--      </el-form-item>-->
-      <!--      <el-form-item label="备注" prop="remarks">-->
-      <!--        <el-input-->
-      <!--            v-model="queryParams.remarks"-->
-      <!--            placeholder="请输入备注"-->
-      <!--            clearable-->
-      <!--            @keyup.enter.native="handleQuery"-->
-      <!--        />-->
-      <!--      </el-form-item>-->
+<!--      <el-form-item label="器材类型" prop="equipType">-->
+<!--        <el-select-->
+<!--            v-model="queryParams.equipType"-->
+<!--            placeholder="器材类型"-->
+<!--            clearable-->
+<!--            style="width: 240px"-->
+<!--        >-->
+<!--          <el-option-->
+<!--              v-for="dict in equipTypeDict"-->
+<!--              :key="dict.value"-->
+<!--              :label="dict.label"-->
+<!--              :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
+      <el-form-item label="生产厂家" prop="producer">
+        <el-input
+            v-model="queryParams.producer"
+            placeholder="请输入生产厂家"
+            clearable
+            @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="购买日期" prop="purchasingDate">
+        <el-date-picker
+            v-model="dateRange"
+            style="width: 240px"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            type="daterange"
+            range-separator="-"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :default-time="['00:00:00', '23:59:59']"
+        ></el-date-picker>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-    <!--    <el-button  @click="handleAdd()">默认按钮</el-button>-->
     <div style="display: flex">
       <el-row :gutter="10" class="mb8">
         <el-col :span="1.5">
@@ -308,6 +270,8 @@ export default {
       total: 0,
       // equipment表格数据
       equipmentList: [],
+      // 日期范围
+      dateRange: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -354,7 +318,7 @@ export default {
     /** 查询equipment列表 */
     getList() {
       this.loading = true;
-      listEquipment(this.queryParams).then(response => {
+      listEquipment(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.equipmentList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -393,6 +357,7 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.dateRange = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },

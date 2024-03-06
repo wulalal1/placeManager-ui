@@ -1,6 +1,6 @@
 import axios from 'axios'
 import router from "@/router";
-
+import { tansParams} from "@/utils/ruoyi";
 // 创建可一个新的axios对象
 const request = axios.create({
     baseURL: process.env.VUE_APP_BASEURL,   // 后端的接口地址  ip:port
@@ -14,6 +14,13 @@ request.interceptors.request.use(config => {
     config.headers['Content-Type'] = 'application/json;charset=utf-8';        // 设置请求头格式
     let user = JSON.parse(localStorage.getItem("xm-user") || '{}')  // 获取缓存的用户信息
     config.headers['token'] = user.token  // 设置请求头
+    // get请求映射params参数
+    if (config.method === 'get' && config.params) {
+        let url = config.url + '?' + tansParams(config.params);
+        url = url.slice(0, -1);
+        config.params = {};
+        config.url = url;
+    }
 
     return config
 }, error => {
