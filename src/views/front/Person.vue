@@ -174,7 +174,8 @@ export default {
       YXstatusDict: getDictData("YXstatus"),
       iconStatusDict: getDictData("iconStatus"),
       title: "",
-      icon: ""
+      icon: "",
+      reservationStatus: ""
     }
   },
   created() {

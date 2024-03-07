@@ -100,6 +100,8 @@
             <el-form-item label="开始时间" prop="startTime">
               <el-date-picker
                   v-model="form.startTime"
+                  popper-class="popperClass"
+                  size="small"
                   type="datetime"
                   placeholder="开始时间"
                   :picker-options="{
@@ -114,6 +116,8 @@
             <el-form-item label="结束时间" prop="endTime">
               <el-date-picker
                   v-model="form.endTime"
+                  popper-class="popperClass"
+                  size="small"
                   type="datetime"
                   placeholder="结束时间"
                   :picker-options="{
@@ -282,3 +286,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.el-date-editor.el-input, .el-date-editor.el-input__inner {
+  width: auto;
+}
+</style>
